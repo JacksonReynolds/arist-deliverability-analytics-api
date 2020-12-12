@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 2020_12_12_003349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "devices", force: :cascade do |t|
+  create_table "devices", id: :text, force: :cascade do |t|
     t.text "phone_number"
     t.text "carrier"
     t.datetime "disabled_at"
@@ -23,12 +23,12 @@ ActiveRecord::Schema.define(version: 2020_12_12_003349) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "heartbeats", force: :cascade do |t|
+  create_table "heartbeats", id: :text, force: :cascade do |t|
     t.integer "device_id"
     t.datetime "created_at"
   end
 
-  create_table "reports", force: :cascade do |t|
+  create_table "reports", id: :text, force: :cascade do |t|
     t.text "sender"
     t.text "message"
     t.integer "device_id"
