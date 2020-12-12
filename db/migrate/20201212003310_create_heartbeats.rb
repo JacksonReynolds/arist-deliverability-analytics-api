@@ -6,3 +6,5 @@ class CreateHeartbeats < ActiveRecord::Migration[6.0]
     end
   end
 end
+
+# a change
