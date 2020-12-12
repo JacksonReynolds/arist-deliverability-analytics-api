@@ -63,7 +63,7 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'creates a new heartbeat record' do
-                assigns(:hb).should be_an_instance_of(Heartbeat)
+                expect(assigns(:hb)).to be_an_instance_of(Heartbeat)
             end
         end
 
