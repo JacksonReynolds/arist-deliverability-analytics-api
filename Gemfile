@@ -32,6 +32,7 @@ group :development, :test do
   # Call binding.pry to debug
   gem 'pry'
   gem 'rspec-rails'
+  gem 'rails-controller-testing'
 end
 
 group :development do
