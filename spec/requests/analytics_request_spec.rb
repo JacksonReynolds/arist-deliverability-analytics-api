@@ -13,9 +13,8 @@ RSpec.describe "Analytics", type: :request do
 
     describe "POST #register" do
 
-        describe "with valid data" do
+        describe "with valid params" do
             before do
-                # binding.pry
                 header = {"accepts": 'application/json'}
                 good_params = {phone_number: '+18004663337', carrier: 'tmobile'} # homedepot customer service as a control, made up carrier
                 post '/api/register', :params => good_params, :headers => header
@@ -40,7 +39,7 @@ RSpec.describe "Analytics", type: :request do
         describe 'with invalid params' do
             before do
                 header = {"accepts": 'application/json'}
-                bad_phone_params = {phone_number: '1111111111', carrier: 'tmobile'}
+                bad_phone_params = {phone_number: '1111111111', carrier: ''}
                 post '/api/register', :params => bad_phone_params, :headers => header
                 @device_id = JSON.parse(response.body)['device_id']
                 @device = Device.find_by(id: @device_id)
@@ -51,9 +50,10 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'has error messages' do
-                binding.pry
-                expect(response.body).to eq("{\"errors\":[\"Phone number is invalid\"]}")
+                expect(response.body).to include("Phone number is invalid")
+                expect(response.body).to include("Carrier can't be blank")
             end
         end
+
     end
 end
