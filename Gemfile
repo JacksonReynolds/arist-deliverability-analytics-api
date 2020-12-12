@@ -48,3 +48,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # uuid for unique, non-incrementable ids
 gem 'uuid'
+
+# phonelib for phone number validation and parsing
+gem 'phonelib'
