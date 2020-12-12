@@ -13,9 +13,10 @@
 ActiveRecord::Schema.define(version: 2020_12_12_003349) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
-  create_table "devices", id: :text, force: :cascade do |t|
+  create_table "devices", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "phone_number"
     t.text "carrier"
     t.datetime "disabled_at"
@@ -23,15 +24,15 @@ ActiveRecord::Schema.define(version: 2020_12_12_003349) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "heartbeats", id: :text, force: :cascade do |t|
-    t.integer "device_id"
+  create_table "heartbeats", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "device_id"
     t.datetime "created_at"
   end
 
-  create_table "reports", id: :text, force: :cascade do |t|
+  create_table "reports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.text "sender"
     t.text "message"
-    t.integer "device_id"
+    t.uuid "device_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
