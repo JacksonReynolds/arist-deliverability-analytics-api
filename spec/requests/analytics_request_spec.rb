@@ -86,7 +86,7 @@ RSpec.describe "Analytics", type: :request do
             before do
                 disabled_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile', disabled_at: DateTime.now)
                 header = {"accepts": 'application/json'}
-                post '/api/alive', :params => {device_id: ''}, :headers => header
+                post '/api/alive', :params => {device_id: disabled_device.id}, :headers => header
             end
 
             it 'returns a 500 status' do
@@ -94,7 +94,7 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'has error message' do
-                expect(response.body).to include("Device is invalid")
+                expect(response.body).to include("Device is disabled")
             end
         end
 
