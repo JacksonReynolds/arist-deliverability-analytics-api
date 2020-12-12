@@ -174,5 +174,39 @@ RSpec.describe "Analytics", type: :request do
  
     end
 
-    describe "PATCH #terminate"
+    describe "PATCH #terminate" do
+
+        context 'with valid params' do
+            before do
+                valid_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile')
+
+                header = {"accepts": 'application/json'}
+                patch '/api/terminate', :params => {device_id: valid_device.id}, :headers => header
+            end
+
+            it 'returns successful' do
+                expect(response).to have_http_status(:success)
+            end
+
+            it 'disables the device' do
+                expect(assigns(:device).disabled).to eq(true)
+            end
+        end
+
+        context "with invalid device_id" do
+            before do
+                header = {"accepts": 'application/json'}
+                patch '/api/terminate', :params => {device_id: ''}, :headers => header
+            end
+
+            it 'returns a 500 status' do
+                expect(response).to have_http_status(:error)
+            end
+
+            it 'has error message' do
+                expect(response.body).to include("Invalid device_id")
+            end
+        end
+
+    end
 end
