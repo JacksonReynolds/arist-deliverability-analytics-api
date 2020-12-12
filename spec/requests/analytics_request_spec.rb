@@ -141,7 +141,6 @@ RSpec.describe "Analytics", type: :request do
                 disabled_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile', disabled_at: DateTime.now)
 
                 header = {"accepts": 'application/json'}
-                bad_params = {device_id: disabled_device.id, message: 'Ohai', sender: 'me'}
                 post '/api/report', :params => {device_id: disabled_device.id}, :headers => header
             end
 
@@ -205,6 +204,23 @@ RSpec.describe "Analytics", type: :request do
 
             it 'has error message' do
                 expect(response.body).to include("Invalid device_id")
+            end
+        end
+
+        context "with disabled device" do
+            before do
+                disabled_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile', disabled_at: DateTime.now)
+
+                header = {"accepts": 'application/json'}
+                patch '/api/terminate', :params => {device_id: disabled_device.id}, :headers => header
+            end
+
+            it 'returns a 500 status' do
+                expect(response).to have_http_status(:error)
+            end
+
+            it 'has error message' do
+                expect(response.body).to include("Device is disabled")
             end
         end
 
