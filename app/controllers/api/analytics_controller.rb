@@ -24,7 +24,17 @@ class Api::AnalyticsController < ApplicationController
     end
 
     def report
-
+        device = Device.find_by(id: params[:device_id])
+        if device
+            @report = device.reports.build(sender: params[:sender], message: params[:message])
+            if @report.save
+                render json: {}, status: 201
+            else
+                render json: {errors: @report.errors.full_messages}, status: 500
+            end
+        else
+            render json: {errors: "Device_id invalid"}, status: 500
+        end
     end
 
     def terminate
