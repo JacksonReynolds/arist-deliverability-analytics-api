@@ -37,22 +37,23 @@ RSpec.describe "Analytics", type: :request do
             end
         end
 
-        # describe 'with invalid params' do
-        #     before do
-        #         header = {"accepts": 'application/json'}
-        #         bad_phone_params = {phone_number: '1111111111', carrier: 'tmobile'}
-        #         post '/api/register', :params => bad_phone_params, :headers => header
-        #         @device_id = JSON.parse(response.body)['device_id']
-        #         @device = Device.find_by(id: @device_id)
-        #     end
+        describe 'with invalid params' do
+            before do
+                header = {"accepts": 'application/json'}
+                bad_phone_params = {phone_number: '1111111111', carrier: 'tmobile'}
+                post '/api/register', :params => bad_phone_params, :headers => header
+                @device_id = JSON.parse(response.body)['device_id']
+                @device = Device.find_by(id: @device_id)
+            end
 
-        #     it 'returns 500 status' do
-        #         expect(response).to have_http_status(:error)
-        #     end
+            it 'returns 500 status' do
+                expect(response).to have_http_status(:error)
+            end
 
-        #     it 'has error messages' do
-        #         expect(response.body)
-        #     end
-        # end
+            it 'has error messages' do
+                binding.pry
+                expect(response.body).to eq("{\"errors\":[\"Phone number is invalid\"]}")
+            end
+        end
     end
 end
