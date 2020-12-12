@@ -1,19 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Analytics", type: :request do
-    describe "GET #test" do 
-        before do
-            get '/api/test'
-        end
-
-        it 'is successful' do
-            expect(response).to have_http_status(:success)
-        end
-    end
 
     describe "POST #register" do
 
-        describe "with valid params" do
+        context "with valid params" do
             before do
                 header = {"accepts": 'application/json'}
                 good_params = {phone_number: '+18004663337', carrier: 'tmobile'} # homedepot customer service as a control, made up carrier
@@ -36,7 +27,7 @@ RSpec.describe "Analytics", type: :request do
             end
         end
 
-        describe 'with invalid params' do
+        context 'with invalid params' do
             before do
                 header = {"accepts": 'application/json'}
                 bad_phone_params = {phone_number: '1111111111', carrier: ''}
@@ -52,6 +43,23 @@ RSpec.describe "Analytics", type: :request do
             it 'has error messages' do
                 expect(response.body).to include("Phone number is invalid")
                 expect(response.body).to include("Carrier can't be blank")
+            end
+        end
+
+    end
+
+    describe "POST #alive" do
+
+        context "with valid params" do
+            before do
+                valid_device = Device.create(id: UUID.new.generate, phone_number: "+18004663337", carrier: 'tmobile')
+
+                header = {"accepts": 'application/json'}
+                post '/api/alive', :params => {device_id: valid_device.id}, :headers => header
+            end
+
+            it 'creates a new heartbeat record' do
+                assigns(:hb).should be_an_instance_of(Heartbeat)
             end
         end
 
