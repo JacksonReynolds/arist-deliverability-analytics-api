@@ -78,7 +78,7 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'has error message' do
-                expect(response.body).to include("Device must exist")
+                expect(response.body).to include("Device_id invalid")
             end
         end
 
@@ -94,7 +94,7 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'has error message' do
-                expect(response.body).to include("Device is disabled")
+                expect(response.body).to include("Device is invalid")
             end
         end
 
