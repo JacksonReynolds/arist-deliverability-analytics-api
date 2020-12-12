@@ -99,4 +99,80 @@ RSpec.describe "Analytics", type: :request do
         end
 
     end
+
+    describe "POST #report" do
+
+        context "with valid params" do
+            before do
+                valid_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile')
+
+                header = {"accepts": 'application/json'}
+                good_params = {device_id: valid_device.id, message: 'Ohai', sender: 'me'}
+                post '/api/report', :params => good_params, :headers => header
+            end
+
+            it 'returns successful' do
+                expect(response).to have_http_status(:success)
+            end
+
+            it 'creates a new report record' do
+                expect(assigns(:report)).to be_an_instance_of(Report)
+            end
+        end
+
+        context 'with invalid device_id' do
+            before do
+                header = {"accepts": 'application/json'}
+                bad_params = {device_id: '', message: 'Ohai', sender: 'me'}
+                post '/api/report', :params => bad_params, :headers => header
+            end
+
+            it 'returns a 500 status' do
+                expect(response).to have_http_status(:error)
+            end
+
+            it 'has error message' do
+                expect(response.body).to include("Device_id invalid")
+            end
+        end
+
+        context "with disabled device" do
+            before do
+                disabled_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile', disabled_at: DateTime.now)
+
+                header = {"accepts": 'application/json'}
+                bad_params = {device_id: disabled_device.id, message: 'Ohai', sender: 'me'}
+                post '/api/report', :params => {device_id: disabled_device.id}, :headers => header
+            end
+
+            it 'returns a 500 status' do
+                expect(response).to have_http_status(:error)
+            end
+
+            it 'has error message' do
+                expect(response.body).to include("Device is disabled")
+            end
+        end
+
+        context "with missing message or sender" do
+            before do
+                valid_device = Device.create(phone_number: "+18004663337", carrier: 'tmobile')
+
+                header = {"accepts": 'application/json'}
+                bad_params = {device_id: valid_device.id, message: nil, sender: nil}
+                post '/api/report', :params => bad_params, :headers => header
+            end
+
+            it 'returns a 500 status' do
+                expect(response).to have_http_status(:error)
+            end
+
+            it 'has error messages' do
+                expect(response.body).to include("Message can't be blank", "Sender can't be blank")
+            end
+        end
+ 
+    end
+
+    describe "PATCH #terminate"
 end
