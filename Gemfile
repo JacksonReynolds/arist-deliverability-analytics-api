@@ -31,8 +31,11 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call binding.pry to debug
   gem 'pry'
+  # testing 
   gem 'rspec-rails'
   gem 'rails-controller-testing'
+  # cors for browser testing
+  gem 'rack-cors'
 end
 
 group :development do

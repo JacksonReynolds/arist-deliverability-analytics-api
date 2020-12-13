@@ -31,6 +31,18 @@ module AristDeliverabilityAnalyticsApi
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # cors
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource(
+          '*',
+          headers: :any,
+          methods: [:get, :patch, :put, :delete, :post, :options]
+          )
+      end
+    end
+
     # Don't generate system test files.
     config.generators.system_tests = nil
   end
