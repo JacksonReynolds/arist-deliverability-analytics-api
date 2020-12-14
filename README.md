@@ -1,25 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a repo for the Ruby programming project assigned by Arist to prospective candidates for the Software Engineer role at their firm. It is a Ruby on Rails API built for testing the deliverability of messages among varying carrier networks and message filtering criteria.
 
-Things you may want to cover:
+The full project description can be found [here](https://www.notion.so/Deliverability-Analytics-API-Ruby-07e0e9eda66b48c582cb61a2c48815b5).
 
-* Ruby version
+Tests are written for each endpint using RSpec, and will require migrating the database in the 'test' environment before executing `rspec`. 
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# arist-deliverability-analytics-api
+Author: Jackson Reynolds - [GitHub](https://github.com/JacksonReynolds)
