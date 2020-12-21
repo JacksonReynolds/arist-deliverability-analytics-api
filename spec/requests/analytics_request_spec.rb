@@ -188,7 +188,7 @@ RSpec.describe "Analytics", type: :request do
             end
 
             it 'disables the device' do
-                expect(assigns(:device).disabled).to eq(true)
+                expect(assigns(:device).disabled?).to eq(true)
             end
         end
 

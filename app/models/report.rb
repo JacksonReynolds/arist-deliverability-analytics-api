@@ -5,7 +5,7 @@ class Report < ApplicationRecord
     validates :sender, presence: true
 
     def device_is_not_disabled
-        if self.device && self.device.disabled
+        if self.device && self.device.disabled?
             self.errors.add(:device, "Device is disabled")
         end
     end

@@ -40,7 +40,7 @@ class Api::AnalyticsController < ApplicationController
     def terminate
         @device = Device.find_by(id: params[:device_id])
         if @device
-            if !@device.disabled && @device.update(disabled_at: DateTime.now)
+            if !@device.disabled? && @device.update(disabled_at: DateTime.now)
                 render json: {}, status: 200
             else
                 render json: {error: "Device is disabled"}, status: 500

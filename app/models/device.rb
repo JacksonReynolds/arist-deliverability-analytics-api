@@ -4,7 +4,7 @@ class Device < ApplicationRecord
     validates :phone_number, phone: true
     validates :carrier, presence: true
 
-    def disabled
+    def disabled?
         !!self.disabled_at
     end
 end
