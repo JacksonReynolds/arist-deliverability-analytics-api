@@ -5,7 +5,7 @@ class Api::AnalyticsController < ApplicationController
     if new_device.save
       render json: {device_id: new_device.id}, status: 201
     else
-      render json: {error: new_device.errors.full_messages}, status: 500
+      render json: {error: new_device.errors.full_messages.join(', ')}, status: 500
     end
   end
 
@@ -16,7 +16,7 @@ class Api::AnalyticsController < ApplicationController
       if @hb.save
         render json: {}, status: 201
       else
-        render json: {error: @hb.errors.full_messages}, status: 500
+        render json: {error: @hb.errors.full_messages.join(', ')}, status: 500
       end
     else
       render json: {error: "Device_id invalid"}, status: 500
@@ -30,7 +30,7 @@ class Api::AnalyticsController < ApplicationController
       if @report.save
         render json: {}, status: 201
       else
-        render json: {error: @report.errors.full_messages}, status: 500
+        render json: {error: @report.errors.full_messages.join(', ')}, status: 500
       end
     else
       render json: {error: "Device_id invalid"}, status: 500
